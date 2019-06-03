@@ -11,6 +11,8 @@ import './assets/statics/site/css/style.css'
 //2.导入index首页组件
 import index from './components/index.vue'
 import gouwuche from './components/gouwuche.vue'
+import detail from './components/detail.vue'
+
 
 //导入路由，先安装路由包,然后导入路由包
 import VueRouter from 'vue-router'
@@ -29,7 +31,10 @@ const routes = [{
   path: '/index',
   component: index
 },
-
+{
+  path:'/detail/:id',
+  component:detail
+}
 
 ];
 //实例化路由对象

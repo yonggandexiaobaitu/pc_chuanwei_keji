@@ -193,7 +193,8 @@
                 <div class="wrap-box">
                     <ul class="img-list">
                         <li v-for="(item,i) in it.datas" :key="i">
-                            <a href="#/site/goodsinfo/87" class="">
+                            <router-link :to="'/detail/'+item.artID">
+                            <!-- <a href="#/site/goodsinfo/87" class=""> -->
                                 <div class="img-box">
                                     <img :src="item.img_url">
                                 </div>
@@ -208,7 +209,8 @@
                                         </span>
                                     </p>
                                 </div>
-                            </a>
+                            <!-- </a> -->
+                            </router-link>
                         </li>
                         <!-- <li>
                             <a href="#/site/goodsinfo/88" class="">
@@ -597,7 +599,7 @@ export default {
       });
       axios.get('http://111.230.232.110:8899/site/goods/getgoodsgroup').then(res=>{
           //获取到底部分类数据的接口
-          console.log(res);
+        //   console.log(res);
           this.bottomlist=res.data.message;
 
       });

@@ -20,7 +20,8 @@
             <span>
               <a href class>会员中心</a>
               <strong>|</strong>
-              <a>退出</a>
+              <!-- <router-link to="/detail">退出</router-link> -->
+              <a href="#">退出</a>
               <strong>|</strong>
             </span>
             <router-link to="/gouwuche">
