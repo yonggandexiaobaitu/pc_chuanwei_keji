@@ -4,6 +4,7 @@ import App from './App.vue'
 Vue.config.productionTip = false
 // 在main.js初始化，林凯坚第一遍
 
+
 //1.导入全局的样式
 import './assets/statics/site/css/style.css'
 

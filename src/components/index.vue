@@ -159,17 +159,17 @@
                     <!--/幻灯片-->
                     <div class="left-220">
                         <ul class="side-img-list">
-                            <li>
+                            <li v-for="(item,index) in toplist" :key="item.index">
                                 <div class="img-box">
-                                    <label>1</label>
-                                    <img src="http://39.108.135.214:8899/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg">
+                                    <label>{{index+1}}</label>
+                                    <img :src="item.img_url">
                                 </div>
                                 <div class="txt-box">
-                                    <a href="/goods/show-98.html">骆驼男装2017秋季新款运动休闲纯色夹克青年宽松长袖针织开衫卫衣</a>
-                                    <span>2017-09-26</span>
+                                    <a href="/goods/show-98.html">{{item.title}}</a>
+                                    <span>{{item.add_time | formatTime()}}</span>
                                 </div>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <div class="img-box">
                                     <label>2</label>
                                     <img src="http://39.108.135.214:8899/upload/201504/20/thumb_201504200314272543.jpg">
@@ -198,7 +198,7 @@
                                     <a href="/goods/show-98.html">三星（SAMSUNG）UA40HU5920JXXZ 40英寸4K超高清</a>
                                     <span>2015-04-20</span>
                                 </div>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -587,8 +587,49 @@
 </template>
 
 <script>
+// 导入axios
+import axios from "axios";
+// 导入moment
+import moment from "moment";
 export default {
   name:"index",
+  data(){
+      return {
+        //分类数据数组
+        catelist:[],
+        // 轮播图数组
+        sliderlist:[],
+        //置顶推荐数组左侧数组
+        toplist:[]
+
+      }
+  },
+  //data结束
+  //定义created钩子函数，在实例化成功的时候，就需要请求数据到页面上去
+  created() {
+      //请求页面参数,使用axios发送请求
+      axios.get('http://111.230.232.110:8899/site/goods/gettopdata/goods').then((res)=>{
+        //   console.log(res);
+             //置顶推荐数组左侧数组
+           this.toplist=res.data.message.toplist;
+           console.log(this.toplist);
+            // 轮播图数组
+            this.sliderlist=res.data.message.sliderlist;
+            //分类数据数组
+            this.catelist=res.data.message.catelist;
+
+      });
+  },
+ 
+ filters:{
+      //ceated钩子结束
+  //定义私有过滤器
+     //定义了过滤时间
+       formatTime(value){
+            return moment(value).format("YYYY-MM-DD");
+
+       },
+  }
 
 }
 </script>
