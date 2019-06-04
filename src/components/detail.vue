@@ -156,7 +156,7 @@
                                         </div>
                                         <div class="txt-box">
                                             <a href="#/site/goodsinfo/90" class="">{{it.title}}</a>
-                                            <span>{{it.add_time}}</span>
+                                            <span>{{it.add_time | globlemonent}}</span>
                                         </div>
                                     </li>
                                   

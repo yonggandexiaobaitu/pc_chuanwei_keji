@@ -47,8 +47,13 @@ let router = new VueRouter({
   // 注入属性
   routes
 });
+//导入monent
+import moment from "moment";
+//创建全局过滤器
+Vue.filter('globlemonent', function(value){
 
-
+return moment(value).format('YYYY-MM-DD');
+});
 
 
 new Vue({
