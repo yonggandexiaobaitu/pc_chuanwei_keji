@@ -7,6 +7,11 @@ Vue.config.productionTip = false
 
 //1.导入全局的样式
 import './assets/statics/site/css/style.css'
+//导入全局的axios
+import axios from 'axios'
+Vue.prototype.$axios=axios;
+//设置全局基地址
+axios.default.baseURL="http://111.230.232.110:8899";
 
 //2.导入index首页组件
 import index from './components/index.vue'
