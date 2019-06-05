@@ -14,10 +14,10 @@
           <div class="wrap-box">
             <div class="left-925">
               <div class="goods-box clearfix">
-                <div class="pic-box" width="515px" >
-                  <el-carousel height="320px" >
+                <div class="pic-box" width="515px">
+                  <el-carousel height="320px">
                     <el-carousel-item v-for="(img1,i) in imglist" :key="i">
-                     <img :src="img1.original_path" alt="">
+                      <img :src="img1.original_path" alt>
                     </el-carousel-item>
                   </el-carousel>
                 </div>
@@ -136,6 +136,8 @@
                             sucmsg=" "
                             data-type="*10-1000"
                             nullmsg="请填写评论内容！"
+                            @keyup.enter="pinglun()"
+                            v-model.trim="pinglun_value"
                           ></textarea>
                           <span class="Validform_checktip"></span>
                         </div>
@@ -155,30 +157,19 @@
                       <p
                         style="margin: 5px 0px 15px 69px; line-height: 42px; text-align: center; border: 1px solid rgb(247, 247, 247);"
                       >暂无评论，快来抢沙发吧！</p>
-                      <li>
+                      <li v-for="(item,index) in padelist" :key="index">
                         <div class="avatar-box">
                           <i class="iconfont icon-user-full"></i>
                         </div>
                         <div class="inner-box">
                           <div class="info">
-                            <span>匿名用户</span>
-                            <span>2017/10/23 14:58:59</span>
+                            <span>{{item.user_name}}</span>
+                            <span>{{item.reply_time | globlemonent()}}</span>
                           </div>
-                          <p>testtesttest</p>
+                          <p>{{item.content}}</p>
                         </div>
                       </li>
-                      <li>
-                        <div class="avatar-box">
-                          <i class="iconfont icon-user-full"></i>
-                        </div>
-                        <div class="inner-box">
-                          <div class="info">
-                            <span>匿名用户</span>
-                            <span>2017/10/23 14:59:36</span>
-                          </div>
-                          <p>很清晰调动单很清晰调动单</p>
-                        </div>
-                      </li>
+                      
                     </ul>
                     <div class="page-box" style="margin: 5px 0px 0px 62px;">
                       <div id="pagination" class="digg">
@@ -237,7 +228,19 @@ export default {
       //商品的主要展示图渲染
       imglist: [],
       //商品详情计数器num
-      num: 1
+      num: 1,
+      //分页评论
+      pinglun_value: "",
+      //存储评论状态
+      pinglun_status: 0,
+      //以下是分页数据用到的数据，因为是经常调用，所以封装成为一个数组
+      //1:页码，页容量，总条数，渲染页数数组
+      pageindex:1,
+      pagesize:10,
+      //总条数,先默认是0
+      totalcount:0,
+      padelist:[],//渲染的数组
+
     };
   },
   methods: {
@@ -254,7 +257,45 @@ export default {
         });
     },
     handleChange(value) {
-      console.log(value);
+    //   console.log(value);
+    },
+    //提交分页评论然后返回真假
+    pinglun() {
+      //当用户没有输入内容提交的时候，弹出提示框
+      if (this.pinglun_value === "") {
+        this.$message.error("错了哦，这是一条错误消息");
+        return false;
+      }
+      this.$axios
+        .post(`site/validate/comment/post/goods/${this.$route.params.id}`, {
+          commenttxt: this.pinglun_value
+        })
+        .then(res => {
+          console.log(res);
+          if (this.pinglun_status == 0) {
+            //评论成功
+            this.$message({
+              message: "恭喜你，这是一条成功消息",
+              type: "success"
+            });
+          }else{
+              this.$message.error("评论失败");
+          }
+        });
+      this.pinglun_value = "";
+    },
+    //提交分页评论结束
+    //封装获取到分页数据的接口
+    pageget(){
+      this.$axios
+         .get(`site/comment/getbypage/goods/${this.$route.params.id}?pageIndex=${this.pageindex}&pageSize=${this. pagesize}`).then(res=>{
+          console.log(res);
+          //赋值渲染数组
+          this.padelist=res.data.message;
+          //赋值总条数需要用到的
+          this.totalcount=res.data.totalcount;
+
+      });
     }
   },
   //侦听路由
@@ -276,26 +317,21 @@ export default {
   created() {
     this.getdetail();
     //获取商品详情的数据
-    // this.$axios
-    //   .get(`site/goods/getgoodsinfo/${this.$route.params.id}`)
-    //   .then(res => {
-    //     //   console.log(res);
-    //     this.goodsinfo = res.data.message.goodsinfo;
-    //     //   console.log('商品详情数组'+goodsinfo);
-    //     this.hotgoodslist = res.data.message.hotgoodslist;
-    //   });
+
+    //页面一打开就获取评论接口
+    this.pageget();
   }
   //   created钩子结束
 };
 </script>
 
 <style>
-.pic-box{
-    width:400px !important;
+.pic-box {
+  width: 400px !important;
 }
-.pic-box img{
-    display: block;
-    width:100%;
-    height: 100%;
+.pic-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 </style>
