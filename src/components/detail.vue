@@ -169,14 +169,18 @@
                           <p>{{item.content}}</p>
                         </div>
                       </li>
-                      
                     </ul>
                     <div class="page-box" style="margin: 5px 0px 0px 62px;">
-                      <div id="pagination" class="digg">
-                        <span class="disabled">« 上一页</span>
-                        <span class="current">1</span>
-                        <span class="disabled">下一页 »</span>
-                      </div>
+                      <!-- 页码改变事件和页容量改变事件，当这个改变肯定需要知道当前多少页，每页多少条-->
+                      <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="pageindex"
+                        :page-sizes="[10, 15, 18, 30]"
+                        :page-size="pagesize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="totalcount"
+                      ></el-pagination>
                     </div>
                   </div>
                 </div>
@@ -235,12 +239,11 @@ export default {
       pinglun_status: 0,
       //以下是分页数据用到的数据，因为是经常调用，所以封装成为一个数组
       //1:页码，页容量，总条数，渲染页数数组
-      pageindex:1,
-      pagesize:10,
+      pageindex: 1,
+      pagesize: 10,
       //总条数,先默认是0
-      totalcount:0,
-      padelist:[],//渲染的数组
-
+      totalcount: 0,
+      padelist: [] //渲染的数组
     };
   },
   methods: {
@@ -257,7 +260,7 @@ export default {
         });
     },
     handleChange(value) {
-    //   console.log(value);
+      //   console.log(value);
     },
     //提交分页评论然后返回真假
     pinglun() {
@@ -278,25 +281,42 @@ export default {
               message: "恭喜你，这是一条成功消息",
               type: "success"
             });
-          }else{
-              this.$message.error("评论失败");
+          } else {
+            this.$message.error("评论失败");
           }
         });
       this.pinglun_value = "";
     },
     //提交分页评论结束
     //封装获取到分页数据的接口
-    pageget(){
+    pageget() {
       this.$axios
-         .get(`site/comment/getbypage/goods/${this.$route.params.id}?pageIndex=${this.pageindex}&pageSize=${this. pagesize}`).then(res=>{
+        .get(
+          `site/comment/getbypage/goods/${this.$route.params.id}?pageIndex=${
+            this.pageindex
+          }&pageSize=${this.pagesize}`
+        )
+        .then(res => {
           console.log(res);
           //赋值渲染数组
-          this.padelist=res.data.message;
+          this.padelist = res.data.message;
           //赋值总条数需要用到的
-          this.totalcount=res.data.totalcount;
-
-      });
+          this.totalcount = res.data.totalcount;
+        });
+    },
+    //当前页码改变事件
+    handleCurrentChange(val){
+      this.pageindex=val;
+      //重新获取数据
+      this.pageget();
+    },
+    //当前页容量改变事件
+    handleSizeChange(size){
+      this.pagesize=size;
+      this.pageget();
+      
     }
+
   },
   //侦听路由
   watch: {
