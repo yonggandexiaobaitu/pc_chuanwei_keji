@@ -14,7 +14,13 @@
           <div class="wrap-box">
             <div class="left-925">
               <div class="goods-box clearfix">
-                <div class="pic-box"></div>
+                <div class="pic-box" width="515px" >
+                  <el-carousel height="320px" >
+                    <el-carousel-item v-for="(img1,i) in imglist" :key="i">
+                     <img :src="img1.original_path" alt="">
+                    </el-carousel-item>
+                  </el-carousel>
+                </div>
                 <div class="goods-spec">
                   <h1>{{goodsinfo.title}}</h1>
                   <p class="subtitle">{{goodsinfo.sub_title}}</p>
@@ -231,7 +237,7 @@ export default {
       //商品的主要展示图渲染
       imglist: [],
       //商品详情计数器num
-      num:1
+      num: 1
     };
   },
   methods: {
@@ -247,9 +253,9 @@ export default {
           this.imglist = res.data.message.imglist;
         });
     },
-     handleChange(value) {
-        console.log(value);
-      }
+    handleChange(value) {
+      console.log(value);
+    }
   },
   //侦听路由
   watch: {
@@ -284,4 +290,12 @@ export default {
 </script>
 
 <style>
+.pic-box{
+    width:400px !important;
+}
+.pic-box img{
+    display: block;
+    width:100%;
+    height: 100%;
+}
 </style>

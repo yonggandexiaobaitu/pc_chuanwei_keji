@@ -112,8 +112,8 @@
               <div id="focus-box" class="focus-box">
                 <ul class="slides">
                   <li>
-                    <el-carousel height="341px">
-                      <el-carousel-item v-for="(slider,index) in sliderlist" :key="index">
+                    <el-carousel height="341px" :autoplay="false"  >
+                      <el-carousel-item v-for="(slider,index) in sliderlist" :key="index" >
                         <a href="#" class="slider_img">
                           <img :src="slider.img_url" alt>
                         </a>
@@ -134,7 +134,8 @@
           <div class="left-220">
             <ul class="side-img-list">
               <li v-for="(item,index) in toplist" :key="item.index">
-                <div class="img-box">
+                  <router-link :to="'/detail/'+item.id">
+                   <div class="img-box">
                   <label>{{index+1}}</label>
                   <img :src="item.img_url">
                 </div>
@@ -142,6 +143,8 @@
                   <a href="/goods/show-98.html">{{item.title}}</a>
                   <span>{{item.add_time | globlemonent}}</span>
                 </div>
+                  </router-link>
+               
               </li>
             </ul>
           </div>
