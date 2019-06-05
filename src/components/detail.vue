@@ -281,6 +281,9 @@ export default {
               message: "恭喜你，这是一条成功消息",
               type: "success"
             });
+            //当发表评论成功的时候，我们也要发送请求，获取评论数据显示最新数据，然后显示就是当前的最新页，所以页数为1
+            this.pageindex=1;
+            this.pageget();
           } else {
             this.$message.error("评论失败");
           }
