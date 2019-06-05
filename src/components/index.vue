@@ -245,8 +245,8 @@ export default {
   //定义created钩子函数，在实例化成功的时候，就需要请求数据到页面上去
   created() {
       //请求页面参数,使用axios发送请求
-     this.$axios.get('/site/goods/gettopdata/goods').then((res)=>{
-        //   console.log(res);
+     this.$axios.get('site/goods/gettopdata/goods').then((res)=>{
+          console.log(res);
              //置顶推荐数组左侧数组
            this.toplist=res.data.message.toplist;
         //    console.log(this.toplist);
@@ -256,7 +256,7 @@ export default {
             this.catelist=res.data.message.catelist;
 
       });
-      this.$axios.get('http://111.230.232.110:8899/site/goods/getgoodsgroup').then(res=>{
+      this.$axios.get('site/goods/getgoodsgroup').then(res=>{
           //获取到底部分类数据的接口
         //   console.log(res);
           this.bottomlist=res.data.message;
@@ -264,15 +264,6 @@ export default {
       });
   },
  
-//  filters:{
-//       //ceated钩子结束
-//   //定义私有过滤器
-//      //定义了过滤时间
-//        formatTime(value){
-//             return moment(value).format("YYYY-MM-DD");
-
-//        },
-//   }
 
 }
 </script>

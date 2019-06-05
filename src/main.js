@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
 import App from './App.vue'
 
 Vue.config.productionTip = false
@@ -9,9 +12,11 @@ Vue.config.productionTip = false
 import './assets/statics/site/css/style.css'
 //导入全局的axios
 import axios from 'axios'
+//设置全局基地址,必须axios放在vue的原型之前设置
+axios.defaults.baseURL = 'http://111.230.232.110:8899/'
 Vue.prototype.$axios=axios;
-//设置全局基地址
-axios.default.baseURL="http://111.230.232.110:8899";
+
+
 
 //2.导入index首页组件
 import index from './components/index.vue'
