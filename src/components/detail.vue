@@ -74,6 +74,7 @@
                            
                             </div>
                           </div>-->
+                          <!-- 饿了么查看handlechange是什么意思 -->
                           <el-input-number
                             v-model="num"
                             @change="handleChange"
@@ -238,7 +239,10 @@ export default {
       //存储评论状态
       pinglun_status: 0,
       //以下是分页数据用到的数据，因为是经常调用，所以封装成为一个数组
-      //1:页码，页容量，总条数，渲染页数数组
+      //1:页码，页容量，总条数，渲染页数数组,我们分页功能需要：在页码改变和页容量改变的时候获取数据
+      //2.在饿了么ui有提供两个方法，在页码还有页容量改变的时候，分别触发两个函数，然后我们需要将
+      //当前页码还有当前的页容量赋值然后重新发送请求获取数据
+
       pageindex: 1,
       pagesize: 10,
       //总条数,先默认是0
@@ -283,7 +287,7 @@ export default {
             });
             //当发表评论成功的时候，我们也要发送请求，获取评论数据显示最新数据，然后显示就是当前的最新页，所以页数为1
             this.pageindex=1;
-            this.pageget();
+            this.pageget(); 
           } else {
             this.$message.error("评论失败");
           }
